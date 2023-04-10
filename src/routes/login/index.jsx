@@ -76,18 +76,20 @@ function Login() {
                                 name={"email"}
                                 type={"email"}
                                 value={inputs.email}
-                                onChange={e => setInputs({...inputs, email: e.target.value})}
                                 place={"Example@gmail.com"}
+                                onChange={e => setInputs({...inputs, email: e.target.value})}
+                                className={"px-4 py-2"}
                             />
                             <Inputs
                                 children={"Senha"}
                                 name={"password"}
                                 type={"password"}
                                 value={inputs.password}
-                                onChange={e => setInputs({...inputs, password: e.target.value})}
                                 place={"*********"}
+                                onChange={e => setInputs({...inputs, password: e.target.value})}
+                                className={"px-4 py-2"}
                             />
-                            <Button children={"Entre"} type={"submit"} />
+                            <Button children={"Entre"} type={"submit"} className={"w-[90%] text-xl px-2 py-2"} />
                         </Form>
                         <div className="text-center text-sm">
                             <p className="text-zinc-800 font-semibold">Ainda não tem conta? <Link className="text-blue-900 hover:text-blue-600 font-bold" to="register">Cadastre-se</Link></p>
