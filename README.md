@@ -4,6 +4,6 @@
 
 techs:
 - React
+- Redux
 - React-router-dom
-- Context-API
 - tailwindcss

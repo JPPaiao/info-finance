@@ -1,43 +1,31 @@
-import { Form, useActionData } from "react-router-dom"
-import { useState, useEffect, useMemo } from "react"
+import { Form } from "react-router-dom"
+import { useMemo } from "react"
 import { Inputs } from "../inputs"
 import { Button } from "../button"
-import { Tables } from "../tables"
+import { store } from "../../store"
+import { connect } from "react-redux"
+import Tables from "../tables"
 
 async function actionDashboard({ request }) {
     const formData = await request.formData()
     const updates = Object.fromEntries(formData)
+    const state = store
+
+    state.dispatch({
+        type: 'row/addRow',
+        payload: updates
+    })
+    state.dispatch({
+        type: 'table/separetor',
+    })
 
     return updates
 }
 
-function DashboardHome() {
-    const actionData = useActionData()
-    const [idRows, setIdRows] = useState(0)
-    const [rowsTable, setRowsTable] = useState([])
-
-    useEffect(() => {
-        const handleAdd = () => {
-            if (actionData) {
-                setRowsTable([
-                    ...rowsTable,
-                    {
-                        id: idRows + 1,
-                        value: actionData.value,
-                        column: actionData.column,
-                        description: actionData.description,
-                        date: '06-04-2023'
-                    }
-                ])
-                setIdRows(idRows + 1)
-            }
-        }
-        handleAdd()
-    }, [actionData])
-
+function DashboardHome({ table }) {
     const data = useMemo(
         () => {
-            return rowsTable.map(r => ({
+            return table.all.map(r => ({
                 col1: r.id,
                 col2: r.value,
                 col3: r.column,
@@ -45,7 +33,7 @@ function DashboardHome() {
                 col5: r.date,
             }))
         },
-        [rowsTable]
+        [table.all]
     )
 
     const columns = useMemo(
@@ -70,10 +58,6 @@ function DashboardHome() {
                 Header: 'Data',
                 accessor: 'col5',
             },
-            {
-                Header: '',
-                accessor: 'col6',
-            }
         ],
         []
     )
@@ -83,7 +67,7 @@ function DashboardHome() {
             <div className="flex gap-7 justify-center my-3">
                 <div className="px-10 py-4 m-1 rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold">Hoje R$1,000</h1>
+                        <h1 className="text-2xl font-semibold">Hoje R$ {table.totalRevenues}</h1>
                         <span className="text-sm text-neutral-500">Mês/jan R$2,000</span>
                     </div>
                     <hr className="border-zinc-700 my-3"/>
@@ -91,7 +75,7 @@ function DashboardHome() {
                 </div>
                 <div className="px-10 py-4 m-1 rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold">Hoje R$1,000</h1>
+                        <h1 className="text-2xl font-semibold">Hoje R$ {table.totalExpenses}</h1>
                         <span className="text-sm text-neutral-500">Mês/jan R$2,000</span>
                     </div>
                     <hr className="border-zinc-700 my-3"/>
@@ -99,7 +83,7 @@ function DashboardHome() {
                 </div>
                 <div className="px-10 py-4 m-1 rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold">Hoje R$1,000</h1>
+                        <h1 className="text-2xl font-semibold">Hoje R$ {table.total}</h1>
                         <span className="text-sm text-neutral-500">Mês/jan R$2,000</span>
                     </div>
                     <hr className="border-zinc-700 my-3"/>
@@ -140,11 +124,18 @@ function DashboardHome() {
                     </Form>
                 </section>
                 <section className="h-full p-4">
-                    <Tables data={data} columns={columns} stateRows={[rowsTable, setRowsTable]}/>
+                    <Tables data={data} columns={columns} />
                 </section>
             </div>
         </section>
     )
 }
 
-export { DashboardHome, actionDashboard }
+const mapStateToProps = state => {
+    return {
+        table: state.table
+    }
+}
+
+export { actionDashboard }
+export default connect(mapStateToProps)(DashboardHome)

@@ -1,24 +1,21 @@
-import { Outlet, redirect, useActionData, useMatches } from "react-router-dom"
+import { Outlet, redirect, useMatches } from "react-router-dom"
 import { Header } from "../../components/header"
 import { Nav } from "../../components/nav"
-import { useAuth } from "../../context/authProvider"
-import { DashboardHome } from "../../components/dashboardHome"
+import DashboardHome from "../../components/dashboardHome"
+import { connect } from "react-redux"
+import { store } from "../../store"
 
 async function loaderDashboard() {
-    const response = await fetch('http://127.0.0.1:5000/')
-    .then(r => r.json())
-
-    return response
+    const state = store.getState().user
+    if (!state || state === null) {
+        return redirect('/')
+    } else {
+        return null
+    }
 }
 
-function Dashboard() {
-    const { userLogin } = useAuth()
+function Dashboard({ user }) {
     const matches = useMatches()
-    // console.log(userLogin)
-
-    // if (userLogin == null) {
-    //     redirect("/")
-    // }
 
     return (
         <div>
@@ -38,4 +35,11 @@ function Dashboard() {
     )
 }
 
-export { Dashboard, loaderDashboard }
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export { loaderDashboard }
+export default connect(mapStateToProps)(Dashboard)

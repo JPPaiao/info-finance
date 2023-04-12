@@ -2,7 +2,7 @@ import { Link, Form, useActionData, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Button } from "../../components/button"
 import { Inputs } from "../../components/inputs"
-import { useAuth } from "../../context/authProvider"
+import { connect } from "react-redux"
 
 async function actionLogin({ request }) {
     const formData = await request.formData()
@@ -25,8 +25,7 @@ async function actionLogin({ request }) {
     return response
 }
 
-function Login() {
-    const auth = useAuth()
+function Login({ user, setUser }) {
     const response = useActionData()
     const navigate = useNavigate()
     const [error, setError] = useState({})
@@ -36,20 +35,18 @@ function Login() {
     })
 
     useEffect(() => {
-        const handleLogin = async () => {
+        const handleLogin = () => {
             if (response) {
                 if (response.Error) {
                     setError(response)
                 } else {
-                    let nav = await auth.login(response.user)
-                    navigate(nav)
+                    setUser(response.user)
+                    navigate('/dashboard')
                 }
             }
         }
         handleLogin()
     }, [response])
-
-    console.log(response)
 
     return (
         <div className="flex gap-10 justify-between h-screen w-full text-black">
@@ -104,4 +101,18 @@ function Login() {
     )
 }
 
-export { Login, actionLogin }
+const mapStateToProps = state => {
+    console.log(state)
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setUser: (user) => dispatch({ type: "user/login", payload: user })
+    }
+}
+
+export { actionLogin }
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
