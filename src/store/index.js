@@ -4,7 +4,7 @@ import { tableReducer } from "./tableReducer"
 
 const store = configureStore({ reducer: {
     user: userAuthReducer,
-    table: tableReducer
+    table: tableReducer,
 }})
 
 export { store, userAuthReducer }

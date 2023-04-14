@@ -5,12 +5,15 @@ import { Button } from "../button"
 import { store } from "../../store"
 import { connect } from "react-redux"
 import Tables from "../tables"
+import { UpIcon, DownIcon } from "../icons/icons"
 
 async function actionDashboard({ request }) {
     const formData = await request.formData()
     const updates = Object.fromEntries(formData)
+    const date = new Date()
     const state = store
 
+    updates['date'] = date.toLocaleDateString()
     state.dispatch({
         type: 'row/addRow',
         payload: updates
@@ -65,29 +68,47 @@ function DashboardHome({ table }) {
     return (
         <section className="max-w-4xl mx-auto">
             <div className="flex gap-7 justify-center my-3">
-                <div className="px-10 py-4 m-1 rounded-md bg-zinc-200">
+                <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold">Hoje R$ {table.totalRevenues}</h1>
-                        <span className="text-sm text-neutral-500">Mês/jan R$2,000</span>
+                        <h1 className="text-2xl font-semibold text-center flex justify-between text-green-600">
+                            <span>R$</span>
+                            +{table.totalRevenues === 0 ? '0.000' : table.totalRevenues}
+                        </h1>
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-neutral-500">Jan R$2,000</span>
+                            <UpIcon classname={"text-green-600"} />
+                        </div>
                     </div>
-                    <hr className="border-zinc-700 my-3"/>
+                    <hr className="border-zinc-700 my-3 w-full"/>
                     <div className="text-center text-3xl font-semibold">Entradas</div>
                 </div>
-                <div className="px-10 py-4 m-1 rounded-md bg-zinc-200">
+                <div className="px-10 py-4 m-1 w-48  rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold">Hoje R$ {table.totalExpenses}</h1>
-                        <span className="text-sm text-neutral-500">Mês/jan R$2,000</span>
+                        <h1 className="text-2xl font-semibold flex justify-between text-red-600">
+                            <span>R$</span>
+                            -{table.totalExpenses === 0 ? '0.000' : table.totalExpenses}</h1>
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-neutral-500">jan R$2,000</span>
+                            <DownIcon classname={"text-red-600"} />
+                        </div>
                     </div>
                     <hr className="border-zinc-700 my-3"/>
                     <div className="text-center text-3xl font-semibold">Saidas</div>
                 </div>
-                <div className="px-10 py-4 m-1 rounded-md bg-zinc-200">
+                <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-2xl font-semibold">Hoje R$ {table.total}</h1>
+                        <h1
+                            className="text-2xl font-semibold flex justify-between"
+                            style={table.total > 0 ? {color: "#29A34A"} : table.total < 0 ? {color: "#DC2626"} : {color: "black"}}
+                        >
+                            <span>R$ </span>
+                            {table.total === 0 ? '0.000' : table.total}
+
+                        </h1>
                         <span className="text-sm text-neutral-500">Mês/jan R$2,000</span>
                     </div>
                     <hr className="border-zinc-700 my-3"/>
-                    <div className="text-center text-3xl font-semibold">Total</div>
+                    <div className="text-center text-3xl font-semibold">Saldo</div>
                 </div>
             </div>
             <div className="mt-3">

@@ -2,16 +2,16 @@ const stateInit = {
     revenues: [],
     expenses: [],
     all: [],
-    totalRevenues: 0,
-    totalExpenses: 0,
-    total: 0,
+    totalRevenues: 0.000,
+    totalExpenses: 0.000,
+    total: 0.000,
 }
 
 function tableReducer(state = stateInit, action) {
     if (action.type === "table/separetor") {
         let sum = 0
         let min = 0
-        
+
         for (let s of state.all) {
             s.description === "entrada"
                 ? (sum += Number(s.value))

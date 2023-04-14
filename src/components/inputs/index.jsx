@@ -9,7 +9,7 @@ function Inputs({ children, name, required, type, place, value, onChange, classN
                 value={value}
                 onChange={onChange}
                 required={required}
-                className={"outline-none border-zinc-500 rounded-md border-2 hover:border-blue-700 focus:border-blue-700 " + className}
+                className={"outline-none placeholder:text-zinc-500 border-zinc-500 rounded-md border-2 hover:border-blue-700 focus:border-blue-700 " + className}
             />
         </div>
     )

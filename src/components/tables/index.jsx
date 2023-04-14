@@ -1,8 +1,9 @@
 import { useTable } from "react-table"
 import { Button } from "../button"
 import { connect } from "react-redux"
+import { TrashIcon, EditIcon } from "../icons/icons"
 
-function Tables({ table, deleteAll, updates, deletRow, editRow, columns, data }) {
+function Tables({ table, updates, deletRow, editRow, columns, data }) {
     const tableInstance = useTable({ columns, data })
     const {
         getTableProps,
@@ -18,11 +19,6 @@ function Tables({ table, deleteAll, updates, deletRow, editRow, columns, data })
 
     const handleDelete = (id) => {
         deletRow(id)
-        updates()
-    }
-
-    const handleDeleteAll = () => {
-        deleteAll()
         updates()
     }
 
@@ -43,7 +39,7 @@ function Tables({ table, deleteAll, updates, deletRow, editRow, columns, data })
                                 headerGroup.headers.map(column => (
                                     <th
                                         {...column.getHeaderProps()}
-                                        className="w-full text-center max-w-[138px] border border-zinc-400"
+                                        className="text-center  w-36 border border-zinc-400"
                                     >
                                         {
                                             column.render('Header')
@@ -51,13 +47,8 @@ function Tables({ table, deleteAll, updates, deletRow, editRow, columns, data })
                                     </th>
                                 ))
                             }
-                            <th className="flex justify-center w-[126px] max-w-[138px] border border-zinc-400">
-                                <Button
-                                    className={"px-1"}
-                                    onClick={() => handleDeleteAll()}
-                                >
-                                    Resetar tabela
-                                </Button>
+                            <th className="flex justify-center w-32 border border-zinc-400">
+                                *
                             </th>
                         </tr>
 
@@ -81,7 +72,7 @@ function Tables({ table, deleteAll, updates, deletRow, editRow, columns, data })
                                         return (
                                             <td
                                                 {...cell.getCellProps()}
-                                                className="w-full border border-zinc-400 text-center max-w-[138px]"
+                                                className="border flex items-center justify-center border-zinc-400 text-center w-36"
                                             >
                                                 {
                                                     cell.render('Cell')
@@ -90,18 +81,18 @@ function Tables({ table, deleteAll, updates, deletRow, editRow, columns, data })
                                         )
                                     })
                                 }
-                                <td className="flex justify-center px-2 gap-3 border border-zinc-400">
+                                <td className="flex justify-center w-32 px-2 gap-3 border border-zinc-400">
                                     <Button
                                         onClick={() => handleEdit(row.cells[0].value)}
                                         className={"px-2 py-[2px]"}
                                     >
-                                        edit
+                                        <EditIcon className={"w-4"}/>
                                     </Button>
                                     <Button
                                         onClick={() => handleDelete(row.cells[0].value)}
                                         className={"px-2 py-[2px]"}
                                     >
-                                        delet
+                                        <TrashIcon className={"w-4"}/>
                                     </Button>
                                 </td>
                             </tr>
@@ -123,7 +114,6 @@ const mapDispatchToProps = dispatch => {
     return {
         deletRow: (id) => dispatch({ type: 'row/removeRow', id }),
         editRow: (id) => dispatch({ type: 'row/editRow', id }),
-        deleteAll: () => dispatch({ type: 'row/deletAll' }),
         updates: () => dispatch({ type: 'table/separetor' }),
     }
 }
