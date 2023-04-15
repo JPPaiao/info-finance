@@ -25,7 +25,7 @@ function tableReducer(state = stateInit, action) {
             totalRevenues: sum,
             totalExpenses: min,
             total: sum - min,
-        };
+        }
     } else if (action.type === "row/addRow") {
         return {
             ...state,
@@ -50,6 +50,21 @@ function tableReducer(state = stateInit, action) {
         return {
             ...state,
             all: [],
+        }
+    } else if (action.type === "row/editRow") {
+        const filterAll = state.all.filter(fil => fil.id !== action.newValue.id)
+        const rowEdit = {
+            id: Number(action.newValue.id),
+            value: Number(action.newValue.value),
+            column: action.newValue.column,
+            description: action.newValue.description,
+            date: action.newValue.date
+        }
+
+        filterAll.splice(action.newValue.id-1, 0, rowEdit)
+        return {
+            ...state,
+            all: filterAll
         }
     }
 

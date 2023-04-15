@@ -3,7 +3,7 @@ import { Button } from "../button"
 import { connect } from "react-redux"
 import { TrashIcon, EditIcon } from "../icons/icons"
 
-function Tables({ table, updates, deletRow, editRow, columns, data }) {
+function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) {
     const tableInstance = useTable({ columns, data })
     const {
         getTableProps,
@@ -13,7 +13,14 @@ function Tables({ table, updates, deletRow, editRow, columns, data }) {
         prepareRow,
     } = tableInstance
 
-    const handleEdit = (id) => {
+    const handleEdit = (row) => {
+        setModal({
+            isOpen: true,
+            id: row[0].value,
+            value: row[1].value,
+            column: row[2].value,
+            description: row[3].value,
+        })
         updates()
     }
 
@@ -83,7 +90,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data }) {
                                 }
                                 <td className="flex justify-center w-32 px-2 gap-3 border border-zinc-400">
                                     <Button
-                                        onClick={() => handleEdit(row.cells[0].value)}
+                                        onClick={() => handleEdit(row.cells)}
                                         className={"px-2 py-[2px]"}
                                     >
                                         <EditIcon className={"w-4"}/>

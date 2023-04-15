@@ -1,11 +1,12 @@
 import { Form } from "react-router-dom"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Inputs } from "../inputs"
 import { Button } from "../button"
 import { store } from "../../store"
 import { connect } from "react-redux"
-import Tables from "../tables"
 import { UpIcon, DownIcon } from "../icons/icons"
+import Popup from "../popup"
+import Tables from "../tables"
 
 async function actionDashboard({ request }) {
     const formData = await request.formData()
@@ -26,6 +27,7 @@ async function actionDashboard({ request }) {
 }
 
 function DashboardHome({ table }) {
+    const [modal, setModal] = useState({isOpen: false})
     const data = useMemo(
         () => {
             return table.all.map(r => ({
@@ -66,7 +68,7 @@ function DashboardHome({ table }) {
     )
 
     return (
-        <section className="max-w-4xl mx-auto">
+        <section className="max-w-4xl mx-auto" id="popup-root">
             <div className="flex gap-7 justify-center my-3">
                 <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-200">
                     <div className="flex flex-col gap-1">
@@ -143,9 +145,10 @@ function DashboardHome({ table }) {
                         />
                         <Button children={"Adicionar"} className={"w-full px-3 py-2"} />
                     </Form>
+                <Popup modal={modal} setModal={setModal} />
                 </section>
                 <section className="h-full p-4">
-                    <Tables data={data} columns={columns} />
+                    <Tables data={data} columns={columns} setModal={setModal} />
                 </section>
             </div>
         </section>
