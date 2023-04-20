@@ -32,7 +32,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
     return (
         <table
             {...getTableProps()}
-            className="bg-zinc-200 p-5 w-full flex flex-col rounded-md"
+            className="bg-zinc-300 p-5 w-full flex flex-col rounded-md"
         >
             <thead
                 className="w-full"
@@ -54,9 +54,6 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
                                     </th>
                                 ))
                             }
-                            <th className="flex justify-center w-32 border border-zinc-400">
-                                *
-                            </th>
                         </tr>
 
                     ))

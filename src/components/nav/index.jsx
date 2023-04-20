@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom"
-import { HomeIcon, ProfileIcon } from "../icons/icons"
+import { HomeIcon, ProfileIcon, TablesIcon } from "../icons/icons"
 
 function Nav() {
     const listNav = [
@@ -12,14 +12,19 @@ function Nav() {
             router: "/dashboard/profile",
             value: "Profile",
             icon: ProfileIcon
-        }
+        },
+        {
+            router: "/dashboard/tables",
+            value: "Tables",
+            icon: TablesIcon
+        },
     ]
 
-    const style = {
-        borderBottomStyle: "solid",
-        borderBottomColor: "#517fff",
-        borderBottomWidth: "4px"
-    }
+    // const style = {
+    //     borderBottomStyle: "solid",
+    //     borderBottomColor: "#517fff",
+    //     borderBottomWidth: "4px"
+    // }
 
     return (
         <section className="px-2 flex items-center">
@@ -27,11 +32,12 @@ function Nav() {
                 {
                     listNav.map(elementNav => (
                         <NavLink
+                            key={elementNav.value}
                             to={elementNav.router}
                             className="px-2 py-1 flex gap-2 cursor-pointer rounded-md transition-all hover:bg-blue-400 hover:text-black"
                         >
                             <elementNav.icon />
-                            <div key={elementNav.value} >
+                            <div>
                                 {elementNav.value}
                             </div>
                         </NavLink>

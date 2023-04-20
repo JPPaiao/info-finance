@@ -7,5 +7,6 @@ import HomeIcon from "./home"
 import TrashIcon from "./trash"
 import EditIcon from "./edit"
 import EyeIcon from "./eye"
+import TablesIcon from "./table"
 
-export { EyeIcon, EditIcon, TrashIcon, HomeIcon, ProfileIcon, UpIcon, DownIcon, LockIcon, EmailIcon }
+export { TablesIcon, EyeIcon, EditIcon, TrashIcon, HomeIcon, ProfileIcon, UpIcon, DownIcon, LockIcon, EmailIcon }

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { userAuthReducer } from "./userReducer"
-import { tableReducer } from "./tableReducer"
+import { tableDayReducer } from "./tableDayReducer"
+import { tableAnalitcReducer } from "./tableAnalitcReducer"
 
 const store = configureStore({ reducer: {
     user: userAuthReducer,
-    table: tableReducer,
+    tableDay: tableDayReducer,
+    tableMonth: tableAnalitcReducer,
 }})
 
 export { store, userAuthReducer }

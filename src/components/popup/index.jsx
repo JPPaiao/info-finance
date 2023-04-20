@@ -23,8 +23,8 @@ function Popup({ modal, setModal, editRow, updates }) {
     }
 
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center'>
-            <div className='text-center w-[400px] h-28 bg-zinc-400 rounded-md p-3'>
+        <div className='fixed top-0 left-0 right-0 bottom-0 z-50 opacity-90 bg-neutral-900 flex items-center justify-center'>
+            <div className='text-center w-[400px] h-28 bg-zinc-200 rounded-md p-3 opacity-100'>
                 <div>
                     <Form className='flex items-center justify-center gap-3'>
                         <div>
@@ -87,7 +87,7 @@ function Popup({ modal, setModal, editRow, updates }) {
 
 const mapStateToProps = state => {
     return {
-        table: state.table
+        table: state.tableDay
     }
 }
 

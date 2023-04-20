@@ -6,6 +6,7 @@ import { Register } from "./routes/register"
 import Dashboard, { loaderDashboard } from "./routes/dashboard"
 import { actionDashboard } from "./components/dashboardHome"
 import Login, { actionLogin } from "./routes/login"
+import TablesRouter, { loaderTable } from "./routes/tablesRouter"
 import { Profile } from "./components/profile"
 import { Provider } from "react-redux"
 import { store } from "./store"
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/profile",
                 element: <Profile />
+            },
+            {
+                path: "/dashboard/tables",
+                element: <TablesRouter />,
+                loader: loaderTable,
             }
         ]
     }

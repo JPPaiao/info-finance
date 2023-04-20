@@ -18,19 +18,21 @@ function Dashboard({ user }) {
     const matches = useMatches()
 
     return (
-        <div>
-            <section className="flex bg-blue-900 py-7 px-14">
+        <div className="h-screen w-full">
+            <header className="flex bg-blue-900 py-7 px-14">
                 <Header />
                 <Nav />
-            </section>
-            {
-                matches.length === 1
-                ? (
-                    <DashboardHome />
-                ) : (
-                    <Outlet />
-                )
-            }
+            </header>
+            <main className="m-6">
+                {
+                    matches.length === 1
+                    ? (
+                        <DashboardHome />
+                    ) : (
+                        <Outlet />
+                        )
+                }
+            </main>
         </div>
     )
 }

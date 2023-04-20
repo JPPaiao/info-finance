@@ -94,7 +94,7 @@ function Login({ user, setUser }) {
                                     className={"px-10 py-2"}
                                 />
                                 <span
-                                    className="absolute top-[38px] right-3"
+                                    className="absolute top-[38px] right-3 cursor-pointer"
                                     onClick={() => setEye(!eye)}
                                 >
                                     <EyeIcon eyes={eye} className={"text-zinc-500"} />

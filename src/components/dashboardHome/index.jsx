@@ -63,6 +63,10 @@ function DashboardHome({ table }) {
                 Header: 'Data',
                 accessor: 'col5',
             },
+            {
+                Header: '*',
+                accessor: 'col6',
+            },
         ],
         []
     )
@@ -70,7 +74,7 @@ function DashboardHome({ table }) {
     return (
         <section className="max-w-4xl mx-auto" id="popup-root">
             <div className="flex gap-7 justify-center my-3">
-                <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-200">
+                <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-300">
                     <div className="flex flex-col gap-1">
                         <h1 className="text-2xl font-semibold text-center flex justify-between text-green-600">
                             <span>R$</span>
@@ -84,7 +88,7 @@ function DashboardHome({ table }) {
                     <hr className="border-zinc-700 my-3 w-full"/>
                     <div className="text-center text-3xl font-semibold">Entradas</div>
                 </div>
-                <div className="px-10 py-4 m-1 w-48  rounded-md bg-zinc-200">
+                <div className="px-10 py-4 m-1 w-48  rounded-md bg-zinc-300">
                     <div className="flex flex-col gap-1">
                         <h1 className="text-2xl font-semibold flex justify-between text-red-600">
                             <span>R$</span>
@@ -97,7 +101,7 @@ function DashboardHome({ table }) {
                     <hr className="border-zinc-700 my-3"/>
                     <div className="text-center text-3xl font-semibold">Saidas</div>
                 </div>
-                <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-200">
+                <div className="px-10 py-4 m-1 w-48 rounded-md bg-zinc-300">
                     <div className="flex flex-col gap-1">
                         <h1
                             className="text-2xl font-semibold flex justify-between"
@@ -114,7 +118,7 @@ function DashboardHome({ table }) {
                 </div>
             </div>
             <div className="mt-3">
-                <section className="flex flex-col justify-center mx-auto w-[85%] rounded-lg bg-zinc-200">
+                <section className="flex flex-col justify-center mx-auto w-[85%] rounded-lg bg-zinc-300">
                     <h1 className="font-semibold text-center m-1 text-xl">Digite o valor de entrada ou saida</h1>
                     <Form method="post" className="flex gap-5 justify-center items-center m-3">
                         <Inputs
@@ -157,7 +161,7 @@ function DashboardHome({ table }) {
 
 const mapStateToProps = state => {
     return {
-        table: state.table
+        table: state.tableDay
     }
 }
 

@@ -7,7 +7,7 @@ const stateInit = {
     total: 0.000,
 }
 
-function tableReducer(state = stateInit, action) {
+function tableDayReducer(state = stateInit, action) {
     if (action.type === "table/separetor") {
         let sum = 0
         let min = 0
@@ -71,4 +71,4 @@ function tableReducer(state = stateInit, action) {
     return state
 }
 
-export { tableReducer }
+export { tableDayReducer }
