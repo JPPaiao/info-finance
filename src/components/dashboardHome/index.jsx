@@ -147,7 +147,9 @@ function DashboardHome({ table }) {
                             value={"saida"}
                             children={"Saida"}
                         />
-                        <Button children={"Adicionar"} className={"w-full px-3 py-2"} />
+                        <div>
+                            <Button children={"Adicionar"} className={"w-full px-3 py-2"} />
+                        </div>
                     </Form>
                 <Popup modal={modal} setModal={setModal} />
                 </section>

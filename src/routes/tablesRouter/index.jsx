@@ -5,30 +5,46 @@ import Tables from "../../components/tables"
 import { store } from "../../store"
 import { useLoaderData } from "react-router-dom"
 
-function loaderTable() {
-    const tableData = store.getState().tableDay
-    store.dispatch({ type: "tableData/setData", tableData })
-    return tableData
+async function loaderTable() {
+    const tableData = store.getState().tableDay.all
+    let dataJson = JSON.stringify(tableData.length > 0 ? tableData : null)
+    const data = await fetch('http://127.0.0.1:5000/analysis/tableMonth', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: dataJson
+    })
+    .then(r => r.json())
+    .catch(e => [])
+
+    store.dispatch({ type: "tableData/setData", data })
+
+    return data
 }
 
 function TablesRouter({ table, setData, revenues }) {
     const tableData = useLoaderData()
-    const [nowData, setNowData] = useState([])
-
-    console.log(tableData)
-    useEffect(() => {
-        setNowData(table.data.revenues)
-    }, [tableData])
 
     useEffect(() => {
         revenues()
     }, [])
 
     const data = useMemo(
-        () => {
-            return []
-        },
-        []
+        () =>{
+            return table.data.map(row => ({
+                col1: row.date,
+                col2: "",
+                col3: "",
+                col4: `R$ ${row.Caixa}`,
+                col5: `R$ ${row.Cartão}`,
+                col6: `R$ ${row.Pix}`,
+                col7: `R$ ${row.Ifood}`,
+                col8: "",
+                col9: `R$ ${row.total}`,
+            }
+        ))},
+        [table.data]
     )
 
     const columns = useMemo(

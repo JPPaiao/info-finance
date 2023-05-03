@@ -1,19 +1,23 @@
 const stateInit = {
-    data: {
-        expenses: [],
-        revenues: [],
-    },
+    // data: {
+    //     expenses: [],
+    //     revenues: [],
+    // },
+    data: [],
     columns: [
         {
             Header: "Data",
             accessor: "col1",
         },
     ],
-};
+}
 
 function tableAnalitcReducer(state = stateInit, action) {
     if (action.type === "tableData/setData") {
-        return state;
+        return {
+            ...state,
+            data: action.data
+        }
     } else if (action.type === "tableColumns/revenues") {
         const columnsRevenues = [
             "",
@@ -29,16 +33,16 @@ function tableAnalitcReducer(state = stateInit, action) {
             newColumns.push({
                 Header: column,
                 accessor: `col${index + 3}`,
-            });
-        });
+            })
+        })
 
         return {
             ...state,
             columns: newColumns,
-        };
+        }
     }
 
-    return state;
+    return state
 }
 
-export { tableAnalitcReducer };
+export { tableAnalitcReducer }

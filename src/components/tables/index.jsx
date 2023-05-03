@@ -85,7 +85,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
                                         )
                                     })
                                 }
-                                <td className="flex justify-center w-32 px-2 gap-3 border border-zinc-400">
+                                {/* <td className="flex justify-center w-32 px-2 gap-3 border border-zinc-400">
                                     <Button
                                         onClick={() => handleEdit(row.cells)}
                                         className={"px-2 py-[2px]"}
@@ -98,7 +98,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
                                     >
                                         <TrashIcon className={"w-4"}/>
                                     </Button>
-                                </td>
+                                </td> */}
                             </tr>
                         )
                     })
