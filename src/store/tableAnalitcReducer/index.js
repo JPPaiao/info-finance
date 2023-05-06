@@ -1,44 +1,41 @@
 const stateInit = {
-    // data: {
-    //     expenses: [],
-    //     revenues: [],
-    // },
-    data: [],
-    columns: [
-        {
-            Header: "Data",
-            accessor: "col1",
-        },
-    ],
+    columns: {
+        inputs: [],
+        outputs: [],
+    },
+    data: {
+        inputs: [],
+        outputs: []
+    }
 }
 
 function tableAnalitcReducer(state = stateInit, action) {
     if (action.type === "tableData/setData") {
-        return {
-            ...state,
-            data: action.data
-        }
-    } else if (action.type === "tableColumns/revenues") {
-        const columnsRevenues = [
-            "",
-            "Caixa",
-            "Cartão",
-            "Pix",
-            "Ifood",
-            "",
-            "Total",
-        ];
-        const newColumns = [state.columns[0]];
-        columnsRevenues.map((column, index) => {
-            newColumns.push({
-                Header: column,
-                accessor: `col${index + 3}`,
-            })
-        })
+        let columnsInputs = action.payload[0].inputs.columns
+        let columnsOutputs = action.payload[0].outputs.columns
+        let newColumnsInputs = columnsInputs.filter((col, i) => columnsInputs.indexOf(col) === i)
+        let newColumnsOutputs = columnsOutputs.filter((col, i) => columnsOutputs.indexOf(col) === i)
+
+        newColumnsInputs.unshift('date')
+        newColumnsOutputs.unshift('date')
+        newColumnsInputs.push('total')
+        newColumnsOutputs.push('total')
 
         return {
-            ...state,
-            columns: newColumns,
+            columns: {
+                inputs: newColumnsInputs,
+                outputs: newColumnsOutputs,
+            },
+            data: {
+                inputs: [
+                    ...state.data.inputs,
+                    action.payload[0].inputs
+                ],
+                outputs: [
+                    ...state.data.outputs,
+                    action.payload[0].outputs
+                ],
+            }
         }
     }
 

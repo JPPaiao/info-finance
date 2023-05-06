@@ -5,6 +5,7 @@ import { Button } from "../button"
 import { store } from "../../store"
 import { connect } from "react-redux"
 import { UpIcon, DownIcon } from "../icons/icons"
+import { saveTable } from "../../scripts/saveTable"
 import Popup from "../popup"
 import Tables from "../tables"
 
@@ -18,9 +19,6 @@ async function actionDashboard({ request }) {
     state.dispatch({
         type: 'row/addRow',
         payload: updates
-    })
-    state.dispatch({
-        type: 'table/separetor',
     })
 
     return updates
@@ -64,7 +62,7 @@ function DashboardHome({ table }) {
                 accessor: 'col5',
             },
             {
-                Header: '*',
+                Header: <Button children={"Salvar tabela"} onClick={() => saveTable()} className={"px-2 py-1"} />,
                 accessor: 'col6',
             },
         ],
@@ -78,7 +76,7 @@ function DashboardHome({ table }) {
                     <div className="flex flex-col gap-1">
                         <h1 className="text-2xl font-semibold text-center flex justify-between text-green-600">
                             <span>R$</span>
-                            +{table.totalRevenues === 0 ? '0.000' : table.totalRevenues}
+                            +{table.totalInputs === 0 ? '0.000' : table.totalInputs}
                         </h1>
                         <div className="flex justify-between items-center">
                             <span className="text-sm text-neutral-500">Jan R$2,000</span>
@@ -92,7 +90,7 @@ function DashboardHome({ table }) {
                     <div className="flex flex-col gap-1">
                         <h1 className="text-2xl font-semibold flex justify-between text-red-600">
                             <span>R$</span>
-                            -{table.totalExpenses === 0 ? '0.000' : table.totalExpenses}</h1>
+                            -{table.totalOutputs === 0 ? '0.000' : table.totalOutputs}</h1>
                         <div className="flex justify-between items-center">
                             <span className="text-sm text-neutral-500">jan R$2,000</span>
                             <DownIcon classname={"text-red-600"} />
@@ -138,18 +136,16 @@ function DashboardHome({ table }) {
                         <Inputs
                             type={"radio"}
                             name={"description"}
-                            value={"entrada"}
+                            value={"inputs"}
                             children={"Entrada"}
                         />
                         <Inputs
                             type={"radio"}
                             name={"description"}
-                            value={"saida"}
+                            value={"outputs"}
                             children={"Saida"}
                         />
-                        <div>
-                            <Button children={"Adicionar"} className={"w-full px-3 py-2"} />
-                        </div>
+                        <Button children={"Adicionar"} className={"w-full px-2 py-2"} />
                     </Form>
                 <Popup modal={modal} setModal={setModal} />
                 </section>

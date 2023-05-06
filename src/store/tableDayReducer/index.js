@@ -1,43 +1,36 @@
 const stateInit = {
-    revenues: [],
-    expenses: [],
     all: [],
-    totalRevenues: 0.000,
-    totalExpenses: 0.000,
+    totalInputs: 0.000,
+    totalOutputs: 0.000,
     total: 0.000,
 }
 
 function tableDayReducer(state = stateInit, action) {
-    if (action.type === "table/separetor") {
-        let sum = 0
-        let min = 0
+    if (action.type === "row/addRow") {
+        let tableAll = [
+            ...state.all,
+            {
+                id: !state.all.length
+                    ? state.all.length + 1
+                    : state.all[state.all.length - 1].id + 1,
+                ...action.payload,
+            },
+        ]
+        let inputs = 0
+        let outputs = 0
 
-        for (let s of state.all) {
-            s.description === "entrada"
-                ? (sum += Number(s.value))
-                : (min += Number(s.value))
+        for (let rowTable of tableAll) {
+            rowTable.description === "inputs"
+                ? (inputs += Number(rowTable.value))
+                : (outputs += Number(rowTable.value))
         }
 
         return {
             ...state,
-            revenues: state.all.filter((r) => r.description === "entrada"),
-            expenses: state.all.filter((r) => r.description === "saida"),
-            totalRevenues: sum,
-            totalExpenses: min,
-            total: sum - min,
-        }
-    } else if (action.type === "row/addRow") {
-        return {
-            ...state,
-            all: [
-                ...state.all,
-                {
-                    id: !state.all.length
-                        ? state.all.length + 1
-                        : state.all[state.all.length - 1].id + 1,
-                    ...action.payload,
-                },
-            ],
+            all: tableAll,
+            totalInputs: inputs,
+            totalOutputs: outputs,
+            total: inputs - outputs,
         }
     } else if (action.type === "row/removeRow") {
         const filter = state.all.filter((row) => row.id != action.id)

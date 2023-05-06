@@ -9,14 +9,14 @@ function Nav() {
             icon: HomeIcon
         },
         {
-            router: "/dashboard/profile",
-            value: "Profile",
-            icon: ProfileIcon
-        },
-        {
             router: "/dashboard/tables",
             value: "Tables",
             icon: TablesIcon
+        },
+        {
+            router: "/dashboard/profile",
+            value: "Profile",
+            icon: ProfileIcon
         },
     ]
 

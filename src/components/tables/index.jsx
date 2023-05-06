@@ -46,7 +46,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
                                 headerGroup.headers.map(column => (
                                     <th
                                         {...column.getHeaderProps()}
-                                        className="text-center  w-36 border border-zinc-400"
+                                        className="flex items-center justify-center w-36 border border-zinc-400"
                                     >
                                         {
                                             column.render('Header')
