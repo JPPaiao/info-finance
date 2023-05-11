@@ -12,51 +12,77 @@ async function loaderTable() {
 function TablesRouter({ table }) {
     const tableData = useLoaderData()
     const [tableDescription, setTableDescription] = useState(true)
-    const [columnsTable, setColumnsTable] = useState(table.columns)
+    const [columnsTable, setColumnsTable] = useState(tableData.columns.inputs)
+    const [dataTable, setDataTable] = useState(tableData.data.inputs)
+    const totalInputs = tableData.data.inputs.map(ins => ins['total'] =+ ins['total'])
+    const totalOutputs = tableData.data.outputs.map(outs => outs['total'] =+ outs['total'])
+    const totalMonth = totalInputs - totalOutputs
 
     useEffect(() => {
-        setColumnsTable(table.columns)
-    }, [table.columns])
-
-    console.log(columnsTable)
+        tableDescription ? (
+            setColumnsTable(tableData.columns.inputs),
+            setDataTable(tableData.data.inputs)
+        ) : (
+            setColumnsTable(tableData.columns.outputs),
+            setDataTable(tableData.data.outputs)
+        )
+    }, [tableDescription])
 
     const data = useMemo(
-        () => tableData.data.inputs.map((row, index) => {
+        () => dataTable.map((row, index) => {
                 let rowsData = {
-                    col0: row['date'],
+                    col1: row['date'],
                 }
 
-                for (let c=1; c <= columnsTable.inputs.length; c++) {
-                    rowsData['col'+c] = row[columnsTable.inputs[c-1]]
+                for (let c=2; c <= columnsTable.length; c++) {
+                    rowsData['col'+c] = `R$ ${parseFloat(row[columnsTable[c-1]])}`
                 }
 
                 return rowsData
             }
         ),
-        [tableData.data.inputs]
+        [dataTable]
     )
 
     const columns = useMemo(
-        () => table.columns.inputs.map((column, index) => ({
+        () => columnsTable.map((column, index) => ({
             Header: column,
             accessor: `col${index + 1}`,
         })),
-        [table.columns.inputs]
+        [columnsTable]
     )
 
     return (
         <section className="bg-zinc-400 rounded p-4 w-full min-h-[480px]">
-            <div className="flex gap-2 my-2">
-                <select name="select">
-                    <option defaultValue={"v1"} >Dia</option>
-                    <option defaultValue={"v2"}>Semana</option>
-                    <option defaultValue={"v3"} selected>Mes</option>
-                </select>
-                <Button className={"px-2 bg-zinc-500 hover:bg-zinc-800"}>Receitas</Button>
-                <Button className={"px-2 bg-zinc-500 hover:bg-zinc-800"}>Despesas</Button>
-                <Button className={"px-2 bg-zinc-500 hover:bg-zinc-800"}>Colunas</Button>
+            <div className="flex gap-2 my-2 justify-between">
+                <div className="flex gap-3 items-center">
+                    <select className="h-6" name="select">
+                        <option defaultValue={"v1"}>Dia</option>
+                        <option defaultValue={"v2"}>Semana</option>
+                        <option defaultValue={"v3"} selected>Mes</option>
+                    </select>
+                    <Button
+                        style={tableDescription ? { backgroundColor: "#27272A" } : {}}
+                        className={"px-2 bg-zinc-500 hover:bg-zinc-800"}
+                        onClick={() => setTableDescription(true)}
+                    >
+                        Receitas
+                    </Button>
+                    <Button
+                        style={!tableDescription ? { backgroundColor: "#27272A" } : {}}
+                        className={"px-2 bg-zinc-500 hover:bg-zinc-800"}
+                        onClick={() => setTableDescription(false)}
+                    >
+                        Dispesas
+                    </Button>
+                </div>
+                <div className="flex gap-2 p-2 rounded-md bg-zinc-300 font-semibold">
+                    <div>Mês: {totalMonth}</div>
+                    <div>Entradas: {totalInputs[0] === undefined ? 0 : `R$ ${parseFloat(totalInputs)}`}</div>
+                    <div>Saídas: {totalOutputs[0] === undefined ? 0 : `R$ ${parseFloat(totalOutputs)}`}</div>
+                </div>
             </div>
-            <div className="w-full h-full p-2 my-2">
+            <div className="w-full h-full my-3">
                 <Tables columns={columns} data={data} />
             </div>
         </section>
@@ -65,7 +91,7 @@ function TablesRouter({ table }) {
 
 const mapStateToProps = state => {
     return {
-        table: state.tableMonth
+        table: state.tableMonth,
     }
 }
 

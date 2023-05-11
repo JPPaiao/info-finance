@@ -13,21 +13,21 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
         prepareRow,
     } = tableInstance
 
-    const handleEdit = (row) => {
-        setModal({
-            isOpen: true,
-            id: row[0].value,
-            value: row[1].value,
-            column: row[2].value,
-            description: row[3].value,
-        })
-        updates()
-    }
+    // const handleEdit = (row) => {
+    //     setModal({
+    //         isOpen: true,
+    //         id: row[0].value,
+    //         value: row[1].value,
+    //         column: row[2].value,
+    //         description: row[3].value,
+    //     })
+    //     updates()
+    // }
 
-    const handleDelete = (id) => {
-        deletRow(id)
-        updates()
-    }
+    // const handleDelete = (id) => {
+    //     deletRow(id)
+    //     updates()
+    // }
 
     return (
         <table

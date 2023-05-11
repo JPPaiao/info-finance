@@ -1,9 +1,10 @@
-function Button({ children, type, onClick, className }) {
+function Button({ children, type, style, onClick, className }) {
     onClick = (onClick == undefined) ? null : onClick
 
     return (
         <div className="text-center flex justify-center items-center">
             <button
+                style={style}
                 type={type}
                 onClick={onClick}
                 className={"rounded-lg bg-blue-900 hover:bg-blue-600 text-white transition-all " + className}

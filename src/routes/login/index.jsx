@@ -53,7 +53,7 @@ function Login({ user, setUser }) {
         <div className="flex gap-1 justify-between h-screen w-full text-black">
             <section className="p-6 w-full max-w-lg flex justify-center">
                 <div className="max-w-sm mx-auto w-full sm:m-auto">
-                    <h1 className="text-xl text-center font-bold text-black">Info financeiro</h1>
+                    <h1 className="text-xl text-center font-bold text-black">Info Finance</h1>
                     <div className="mt-7">
                         <h2 className="font-bold text-center text-4xl text-blue-900">Login</h2>
                         {
