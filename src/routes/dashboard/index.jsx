@@ -1,29 +1,27 @@
 import { Outlet, redirect, useMatches } from "react-router-dom"
 import { Header } from "../../components/header"
 import { Nav } from "../../components/nav"
-import DashboardHome from "../../components/dashboardHome"
-import { connect } from "react-redux"
 import { store } from "../../store"
+import DashboardHome from "../../components/dashboardHome"
 
 async function loaderDashboard() {
-    const state = store.getState().user
-    if (!state || state === null) {
-        return redirect('/')
-    } else {
-        return null
-    }
+    const user = store.getState().user.user
+    // if (!user || user === null) {
+    //     return redirect('/')
+    // }
+    return { user: user }
 }
 
-function Dashboard({ user }) {
+function Dashboard() {
     const matches = useMatches()
 
     return (
-        <div className="h-screen w-full">
+        <div className="h-screen w-full bg-zinc-200">
             <header className="flex bg-blue-900 py-7 px-14">
                 <Header />
                 <Nav />
             </header>
-            <main className="m-6">
+            <main className="m-6 bg-zinc-200">
                 {
                     matches.length === 1
                     ? (
@@ -37,11 +35,5 @@ function Dashboard({ user }) {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user
-    }
-}
-
 export { loaderDashboard }
-export default connect(mapStateToProps)(Dashboard)
+export default Dashboard

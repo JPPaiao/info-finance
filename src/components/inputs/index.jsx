@@ -11,7 +11,7 @@ function Inputs({ children, name, required, type, place, value, onChange, onClic
                 onClick={onClick}
                 required={required}
                 checked={checked}
-                className={"outline-none placeholder:text-zinc-500 border-zinc-500 rounded-md border-2 hover:border-blue-700 focus:border-blue-700 " + className}
+                className={"outline-none placeholder:text-zinc-500 border-zinc-500 rounded border-2 hover:border-blue-700 focus:border-blue-700 " + className}
             />
         </div>
     )
