@@ -8,4 +8,5 @@ techs:
 - React-router-dom
 - tailwindcss
 
-![Info FInance](https://github.com/JPPaiao/info-finance/assets/85517774/275b17c8-b977-43a3-9137-3570ba0dc493)
+![Info financeiro - layout](https://github.com/JPPaiao/info-finance/assets/85517774/2be6f758-6e16-4a6c-868d-14b84749dc41)
+
