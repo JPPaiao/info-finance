@@ -14,9 +14,9 @@ function TablesRouter({ table }) {
     const [tableDescription, setTableDescription] = useState(true)
     const [columnsTable, setColumnsTable] = useState(tableData.columns.inputs)
     const [dataTable, setDataTable] = useState(tableData.data.inputs)
-    const totalInputs = tableData.data.inputs.map(ins => ins['total'] =+ ins['total'])
-    const totalOutputs = tableData.data.outputs.map(outs => outs['total'] =+ outs['total'])
-    const totalMonth = `R$ ${totalInputs - totalOutputs}`
+    const totalInputs = `R$ ${parseFloat(table.dataTotal.totalInputs)}`
+    const totalOutputs = `R$ ${parseFloat(table.dataTotal.totalOutputs)}`
+    const totalMonth = `R$ ${parseFloat(table.dataTotal.total)}`
 
     useEffect(() => {
         tableDescription ? (
@@ -35,7 +35,11 @@ function TablesRouter({ table }) {
                 }
 
                 for (let c=2; c <= columnsTable.length; c++) {
-                    rowsData['col'+c] = `R$ ${parseFloat(row[columnsTable[c-1]])}`
+                    let valueCol = row[columnsTable[c-1]] == undefined
+                        ? 0.00
+                        : parseFloat(row[columnsTable[c-1]])
+
+                    rowsData['col'+c] = `R$ ${valueCol}`
                 }
 
                 return rowsData
@@ -78,8 +82,8 @@ function TablesRouter({ table }) {
                 </div>
                 <div className="flex gap-2 p-2 rounded-md bg-zinc-300 font-semibold shadow-lg">
                     <div>Mês: {totalMonth}</div>
-                    <div>Entradas: {totalInputs[0] === undefined ? 0 : `R$ ${parseFloat(totalInputs)}`}</div>
-                    <div>Saídas: {totalOutputs[0] === undefined ? 0 : `R$ ${parseFloat(totalOutputs)}`}</div>
+                    <div>Entradas: {totalInputs}</div>
+                    <div>Saídas: {totalOutputs}</div>
                 </div>
             </div>
             <div className="w-full h-full my-3">

@@ -5,37 +5,56 @@ const stateInit = {
     },
     data: {
         inputs: [],
-        outputs: []
-    }
+        outputs: [],
+    },
+    dataTotal: {
+        total: 0,
+        totalInputs: 0,
+        totalOutputs: 0,
+    },
 }
 
 function tableAnalitcReducer(state = stateInit, action) {
     if (action.type === "tableData/setData") {
-        let columnsInputs = action.payload[0].inputs.columns
-        let columnsOutputs = action.payload[0].outputs.columns
-        let newColumnsInputs = columnsInputs.filter((col, i) => columnsInputs.indexOf(col) === i)
-        let newColumnsOutputs = columnsOutputs.filter((col, i) => columnsOutputs.indexOf(col) === i)
+        console.log(action.payload)
+        let columnsInputs = []
+        let columnsOutputs = []
+        let dataInputs = [...state.data.inputs]
+        let dataOutputs = [...state.data.inputs]
+        let dataTotal = {...state.dataTotal}
 
-        newColumnsInputs.unshift('date')
-        newColumnsOutputs.unshift('date')
-        newColumnsInputs.push('total')
-        newColumnsOutputs.push('total')
+        action.payload.forEach((row) => {
+            row.inputs.columns.filter(col => !columnsInputs.includes(col) ? columnsInputs.push(col) : null)
+            row.outputs.columns.filter(col => !columnsOutputs.includes(col) ? columnsOutputs.push(col) : null)
+
+            if (row.inputs.columns.length != 0) {
+                dataInputs.push(row.inputs)
+            }
+            if (row.outputs.columns.length != 0) {
+                dataOutputs.push(row.outputs)
+            }
+            dataTotal.totalInputs += row.inputs.total
+            dataTotal.totalOutputs += row.outputs.total
+            dataTotal.total = dataTotal.totalInputs - dataTotal.totalOutputs
+        })
+
+        columnsInputs.unshift("date")
+        columnsOutputs.unshift("date")
+        columnsInputs.push("total")
+        columnsOutputs.push("total")
+
+        console.log(dataTotal)
 
         return {
             columns: {
-                inputs: newColumnsInputs,
-                outputs: newColumnsOutputs,
+                inputs: columnsInputs,
+                outputs: columnsOutputs,
             },
             data: {
-                inputs: [
-                    ...state.data.inputs,
-                    action.payload[0].inputs
-                ],
-                outputs: [
-                    ...state.data.outputs,
-                    action.payload[0].outputs
-                ],
-            }
+                inputs: dataInputs,
+                outputs: dataOutputs,
+            },
+            dataTotal: dataTotal,
         }
     }
 
