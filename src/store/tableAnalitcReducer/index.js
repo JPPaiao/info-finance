@@ -43,8 +43,6 @@ function tableAnalitcReducer(state = stateInit, action) {
         columnsInputs.push("total")
         columnsOutputs.push("total")
 
-        console.log(dataTotal)
-
         return {
             columns: {
                 inputs: columnsInputs,

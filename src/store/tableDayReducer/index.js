@@ -6,6 +6,23 @@ const stateInit = {
 }
 
 function tableDayReducer(state = stateInit, action) {
+    const update = (table) => {
+        let inputs = 0.000
+        let outputs = 0.000
+
+        for (let row of table) {
+            row.description === "inputs"
+                ? (inputs += Number(row.value))
+                : (outputs += Number(row.value))
+        }
+
+        return {
+            totalInputs: inputs,
+            totalOutputs: outputs,
+            total: inputs - outputs,
+        }
+    }
+
     if (action.type === "row/addRow") {
         let tableAll = [
             ...state.all,
@@ -16,28 +33,21 @@ function tableDayReducer(state = stateInit, action) {
                 ...action.payload,
             },
         ]
-        let inputs = 0
-        let outputs = 0
-
-        for (let rowTable of tableAll) {
-            rowTable.description === "inputs"
-                ? (inputs += Number(rowTable.value))
-                : (outputs += Number(rowTable.value))
-        }
+        let updates = update(tableAll)
 
         return {
             ...state,
             all: tableAll,
-            totalInputs: inputs,
-            totalOutputs: outputs,
-            total: inputs - outputs,
+            ...updates
         }
-    } else if (action.type === "row/removeRow") {
-        const filter = state.all.filter((row) => row.id != action.id)
+    } else if (action.type === "row/deletRow") {
+        const filter = state.all.filter((row) => row.id != action.payload)
+        let updates = update(filter)
 
         return {
             ...state,
             all: filter,
+            ...updates
         }
     } else if (action.type === "row/deletAll") {
         return {
@@ -53,11 +63,13 @@ function tableDayReducer(state = stateInit, action) {
             description: action.newValue.description,
             date: action.newValue.date
         }
-
         filterAll.splice(action.newValue.id-1, 0, rowEdit)
+        let updates = update(filterAll)
+
         return {
             ...state,
-            all: filterAll
+            all: filterAll,
+            ...updates
         }
     }
 

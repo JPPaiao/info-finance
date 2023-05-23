@@ -1,9 +1,7 @@
 import { useTable } from "react-table"
-import { Button } from "../button"
 import { connect } from "react-redux"
-import { TrashIcon, EditIcon } from "../icons/icons"
 
-function Tables({ table, updates, deletRow, editRow, columns, data, setModal, homeTableUpdates = false }) {
+function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) {
     const tableInstance = useTable({ columns, data })
     const {
         getTableProps,
@@ -13,21 +11,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal, ho
         prepareRow,
     } = tableInstance
 
-    const handleEdit = (row) => {
-        setModal({
-            isOpen: true,
-            id: row[0].value,
-            value: row[1].value,
-            column: row[2].value,
-            description: row[3].value,
-        })
-        updates()
-    }
 
-    const handleDelete = (id) => {
-        deletRow(id)
-        updates()
-    }
 
     return (
         <table
@@ -46,7 +30,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal, ho
                                 headerGroup.headers.map(column => (
                                     <th
                                         {...column.getHeaderProps()}
-                                        className="flex items-center justify-center w-36 border border-zinc-400"
+                                        className="flex items-center justify-center w-36 border border-zinc-400 text-lg"
                                     >
                                         {
                                             column.render('Header')
@@ -76,7 +60,7 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal, ho
                                         return (
                                             <td
                                                 {...cell.getCellProps()}
-                                                className="border flex items-center justify-center border-zinc-400 text-center gap-2 w-36"
+                                                className="border flex items-center justify-center border-zinc-400 text-center gap-2 w-36 text-lg"
                                             >
                                                 {
                                                     cell.render('Cell')
@@ -100,12 +84,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        deletRow: (id) => dispatch({ type: 'row/removeRow', id }),
-        editRow: (id) => dispatch({ type: 'row/editRow', id }),
-        updates: () => dispatch({ type: 'table/separetor' }),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tables)
+export default connect(mapStateToProps)(Tables)

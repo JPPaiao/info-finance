@@ -4,27 +4,21 @@ import { Inputs } from '../inputs'
 import { connect } from 'react-redux'
 import { useState } from 'react'
 
-function Popup({ modal, setModal, editRow, updates }) {
+function Popup({ table, modal, setModal, editRow }) {
     if (!modal.isOpen) {
         return null
     }
-    const date = new Date()
-    const [newValues, setNewValues] = useState({
-        id: modal.id,
-        value: modal.value,
-        column: modal.column,
-        description: modal.description,
-        date: date.toLocaleDateString(),
-    })
+    let state = table.all.filter(row => row.id == modal.id ? row : null)
+    const [newValues, setNewValues] = useState(state[0])
     const handleEditRow = () => {
         editRow(newValues)
-        updates()
         setModal({isOpen: !modal.isOpen})
     }
 
     return (
-        <div className='fixed top-0 left-0 right-0 bottom-0 z-50 opacity-90 bg-neutral-900 flex items-center justify-center'>
-            <div className='text-center w-[400px] h-28 bg-zinc-200 rounded-md p-3 opacity-100'>
+        <>
+            <div className='fixed top-0 left-0 right-0 bottom-0 z-50 opacity-90 bg-neutral-900 flex items-center justify-center'></div>
+            <div className='text-center w-[400px] h-28 bg-zinc-200 rounded-md p-3 z-[999] absolute right-[36%]'>
                 <div>
                     <Form className='flex items-center justify-center gap-3'>
                         <div>
@@ -53,14 +47,14 @@ function Popup({ modal, setModal, editRow, updates }) {
                             type={"radio"}
                             name={"description"}
                             children={"Entrada"}
-                            value={"entrada"}
+                            value={"input"}
                             onClick={e => setNewValues({...newValues, description: e.target.value})}
                         />
                         <Inputs
                             type={"radio"}
                             name={"description"}
                             children={"Saida"}
-                            value={"saida"}
+                            value={"output"}
                             onClick={e => setNewValues({...newValues, description: e.target.value})}
                         />
                     </Form>
@@ -81,7 +75,7 @@ function Popup({ modal, setModal, editRow, updates }) {
                     </Button>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -93,9 +87,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deletRow: (id) => dispatch({ type: 'row/removeRow', id }),
         editRow: (newValue) => dispatch({ type: 'row/editRow', newValue }),
-        updates: () => dispatch({ type: 'table/separetor' }),
     }
 }
 

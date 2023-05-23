@@ -25,25 +25,20 @@ async function actionDashboard({ request }) {
     return updates
 }
 
-function DashboardHome({ table }) {
+function DashboardHome({ table, deletRow }) {
     const [modal, setModal] = useState({isOpen: false})
     const [tableAll, setTableAll] = useState(table.all)
-    const buttonsTable = [
-        <>
-            <Button
-                onClick={() => handleEdit(row.cells)}
-                className={"px-2 py-[2px]"}
-            >
-                <EditIcon className={"w-4"}/>
-            </Button>
-            <Button
-                onClick={() => handleDelete(row.cells[0].value)}
-                className={"px-2 py-[2px]"}
-            >
-                <TrashIcon className={"w-4"}/>
-            </Button>
-        </>
-    ]
+
+    const handleEdit = (id) => {
+        setModal({
+            isOpen: true,
+            id: id
+        })
+    }
+
+    const handleDelete = (id) => {
+        deletRow(id)
+    }
 
     useEffect(() => {
         setTableAll(table.all)
@@ -52,6 +47,22 @@ function DashboardHome({ table }) {
     const data = useMemo(
         () => tableAll.map(rows => {
                 let descriptionRow = rows.description == 'inputs' ? 'entrada' : 'saída'
+                const buttonsTable = [
+                    <>
+                        <Button
+                            onClick={() => handleEdit(rows.id)}
+                            className={"px-2 py-[1px]"}
+                        >
+                            <EditIcon className={"w-4"}/>
+                        </Button>
+                        <Button
+                            onClick={() => handleDelete(rows.id)}
+                            className={"px-2 py-[1px]"}
+                        >
+                            <TrashIcon className={"w-4"}/>
+                        </Button>
+                    </>
+                ]
 
                 return {
                     col1: rows.id,
@@ -88,7 +99,7 @@ function DashboardHome({ table }) {
                 accessor: 'col5',
             },
             {
-                Header: <Button children={"Salvar tabela"} onClick={() => saveTable()} className={"px-2 py-1"} />,
+                Header: <Button children={"Salvar tabela"} onClick={() => saveTable()} className={"px-2 py-1 text-base"} />,
                 accessor: 'col6',
             },
         ],
@@ -174,7 +185,7 @@ function DashboardHome({ table }) {
                 <Popup modal={modal} setModal={setModal} />
                 </section>
                 <section className="h-full py-4">
-                    <Tables data={data} columns={columns} setModal={setModal} />
+                    <Tables data={data} columns={columns} setModal={setModal}  />
                 </section>
             </div>
         </section>
@@ -187,5 +198,11 @@ const mapStateToProps = state => {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        deletRow: (id) => dispatch({ type: 'row/deletRow', payload: id })
+    }
+}
+
 export { actionDashboard }
-export default connect(mapStateToProps)(DashboardHome)
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardHome)
