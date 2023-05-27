@@ -2,10 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { ErrorPage } from "./routes/error"
-import { Register } from "./routes/register"
+import { Register, actionRegister} from "./routes/register"
 import Dashboard, { loaderDashboard } from "./routes/dashboard"
 import { actionDashboard } from "./components/dashboardHome"
-import Login, { actionLogin } from "./routes/login"
+import { Login, actionLogin } from "./routes/login"
 import TablesRouter, { loaderTable } from "./routes/tablesRouter"
 import { Profile } from "./components/profile"
 import { Provider } from "react-redux"
@@ -22,7 +22,8 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register />,
-        errorElement: <ErrorPage />
+        errorElement: <ErrorPage />,
+        action: actionRegister
     },
     {
         path: "/dashboard",
