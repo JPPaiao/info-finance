@@ -27,58 +27,59 @@ function Register() {
     }
 
     return (
-        <div className="flex w-full h-full gap-10 justify-between">
-            <section className="p-4 w-full justify-center">
+        <div className="flex w-full h-screen justify-between gap-1">
+            <section className="p-2 max-w-lg w-full flex justify-center items-center">
                 <div className="max-w-sm mx-auto w-full sm:auto">
                     <h1 className="text-xl text-center font-bold text-black">Info financeiro</h1>
                     <div className="mt-2">
                         <h2 className="font-bold text-center text-4xl text-blue-900">Cadastro</h2>
-                        <form className="flex flex-col gap-4 my-5">
+                        <form className="flex flex-col gap-5 my-6">
                             <Inputs
-                                children={"Nome"}
                                 name={"name"}
                                 type={"text"}
-                                place={"Nome Exemplo da Silva"}
+                                place={"Nome"}
                                 required={true}
                                 value={inputs.name}
                                 onChange={e => handleChange(e)}
+                                className={"px-3 py-[6px]"}
                             />
                             <Inputs
-                                children={"Email"}
                                 name={"email"}
                                 type={"email"}
-                                place={"Exemplo@gmail.com"}
+                                place={"Email"}
                                 required={true}
                                 value={inputs.email}
                                 onChange={e => handleChange(e)}
+                                className={"px-3 py-[6px]"}
                             />
                             <Inputs
-                                children={"Senha"}
                                 name={"password"}
                                 type={"password"}
-                                place={"*********"}
+                                place={"Senha"}
                                 required={true}
                                 value={inputs.password}
                                 onChange={e => handleChange(e)}
+                                className={"px-3 py-[6px]"}
                             />
                             <Inputs
-                                children={"Confirmar senha"}
                                 type={"password"}
-                                place={"*********"}
+                                place={"Confirmar senha"}
+                                className={"px-3 py-[6px]"}
                             />
                             <Inputs
-                                children={"Celular"}
                                 name={"number"}
                                 type={"number"}
-                                place={"(00) 00000-0000"}
+                                place={"Celular"}
                                 required={true}
                                 value={inputs.number}
                                 onChange={e => handleChange(e)}
+                                className={"px-3 py-[6px]"}
                             />
                             <Button
                                 children={"Entre"}
                                 type={"button"}
                                 onClick={() => console.log(inputs)}
+                                className={"w-[90%] text-xl py-2"}
                             />
                         </form>
                         <div className="text-center text-sm">
@@ -87,8 +88,12 @@ function Register() {
                     </div>
                 </div>
             </section>
-            <section className="hidden w-full sm:block">
-                img
+            <section className="sm:block hidden w-full">
+                <img
+                    src="https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-analyze-financi_74952-1411.jpg?w=740&t=st=1681439990~exp=1681440590~hmac=40b40208f0d60ea6f2cf0b1b31ff8c69027d5f7d8d2eb0ae7e0ce53f17739503"
+                    alt=""
+                    className="w-full h-full"
+                />
             </section>
         </div>
     )

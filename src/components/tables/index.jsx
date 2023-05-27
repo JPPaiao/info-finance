@@ -1,7 +1,7 @@
 import { useTable } from "react-table"
 import { connect } from "react-redux"
 
-function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) {
+function Tables({ columns, data }) {
     const tableInstance = useTable({ columns, data })
     const {
         getTableProps,
@@ -10,8 +10,6 @@ function Tables({ table, updates, deletRow, editRow, columns, data, setModal }) 
         rows,
         prepareRow,
     } = tableInstance
-
-
 
     return (
         <table
