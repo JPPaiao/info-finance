@@ -16,7 +16,6 @@ const stateInit = {
 
 function tableAnalitcReducer(state = stateInit, action) {
     if (action.type === "tableData/setData") {
-        console.log(action.payload)
         let columnsInputs = []
         let columnsOutputs = []
         let dataInputs = [...state.data.inputs]

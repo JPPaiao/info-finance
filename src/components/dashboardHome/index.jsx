@@ -5,7 +5,6 @@ import { Button } from "../button"
 import { store } from "../../store"
 import { connect } from "react-redux"
 import { UpIcon, DownIcon } from "../icons/icons"
-import { saveTable } from "../../scripts/saveTable"
 import { TrashIcon, EditIcon } from "../icons/icons"
 import Popup from "../popup"
 import Tables from "../tables"
@@ -25,9 +24,11 @@ async function actionDashboard({ request }) {
     return updates
 }
 
-function DashboardHome({ table, deletRow }) {
+function DashboardHome({ table, deletRow, saveTableStore }) {
     const [modal, setModal] = useState({isOpen: false})
-    const [tableAll, setTableAll] = useState(table.all)
+    const [load, setLoad] = useState(true)
+    const [tableAll, setTableAll] = useState([])
+    const [control, setControl] = useState(true)
 
     const handleEdit = (id) => {
         setModal({
@@ -43,6 +44,33 @@ function DashboardHome({ table, deletRow }) {
     useEffect(() => {
         setTableAll(table.all)
     }, [table.all])
+
+    useEffect(() => {
+        async function saveTable() {
+            setLoad(false)
+            let dataJson = table.all.length > 0 ? table.all : null
+            if (dataJson != null) {
+                await fetch('http://127.0.0.1:5000/analysis/tableMonth', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(dataJson)
+                })
+                .then(r => r.json())
+                .then(data => {
+                    saveTableStore(data)
+                    setLoad(true)
+                })
+                .catch(e => {
+                    console.log(e)
+                    setLoad(true)
+                })
+            }
+        }
+
+        saveTable()
+    }, [control])
 
     const data = useMemo(
         () => tableAll.map(rows => {
@@ -77,32 +105,42 @@ function DashboardHome({ table, deletRow }) {
     )
 
     const columns = useMemo(
-        () => [
-            {
-                Header: 'ID',
-                accessor: 'col1',
-            },
-            {
-                Header: 'Valor',
-                accessor: 'col2',
-            },
-            {
-                Header: 'Coluna',
-                accessor: 'col3',
-            },
-            {
-                Header: 'Descrição',
-                accessor: 'col4',
-            },
-            {
-                Header: 'Data',
-                accessor: 'col5',
-            },
-            {
-                Header: <Button children={"Salvar tabela"} onClick={() => saveTable()} className={"px-2 py-1 text-base"} />,
-                accessor: 'col6',
-            },
-        ],
+        () => {
+            let buttonSave = <Button className={"px-2 py-1 text-base"}>
+                {
+                    load
+                      ? <div onClick={() => setControl(!control)}>Salvar tabela</div>
+                      : <div>Salvo com sucesso!</div>
+                }
+            </Button>
+
+            return [
+                {
+                    Header: 'ID',
+                    accessor: 'col1',
+                },
+                {
+                    Header: 'Valor',
+                    accessor: 'col2',
+                },
+                {
+                    Header: 'Coluna',
+                    accessor: 'col3',
+                },
+                {
+                    Header: 'Descrição',
+                    accessor: 'col4',
+                },
+                {
+                    Header: 'Data',
+                    accessor: 'col5',
+                },
+                {
+                    Header: buttonSave,
+                    accessor: 'col6',
+                },
+            ]
+        },
         []
     )
 
@@ -200,7 +238,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deletRow: (id) => dispatch({ type: 'row/deletRow', payload: id })
+        deletRow: (id) => dispatch({ type: 'row/deletRow', payload: id }),
+        saveTableStore: (newTable) => dispatch({ type: "tableData/setData", payload: newTable})
     }
 }
 
