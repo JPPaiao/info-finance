@@ -6,10 +6,14 @@ import DashboardHome from "../../components/dashboardHome"
 
 async function loaderDashboard() {
     const user = store.getState().user.user
+    const table = store.getState().tableDay
     // if (!user || user === null) {
     //     return redirect('/')
     // }
-    return { user: user }
+    return {
+        table: table, 
+        user: user 
+    }
 }
 
 function Dashboard() {
