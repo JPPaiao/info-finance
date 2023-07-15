@@ -1,6 +1,6 @@
 # info-finance
 
-#### Sistema de controle de caixa para lojas
+#### Sistema que ajuda a organizar seu financeiro, adiciona entradas e saidas do dia e amostra as contas do mês e diário.  
 
 techs:
 - React
