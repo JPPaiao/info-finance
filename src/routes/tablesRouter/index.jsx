@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import { connect } from "react-redux"
 import { store } from "../../store"
 import { useLoaderData } from "react-router-dom"
-import Tables from "../../components/tables"
+import { TableRows } from "../../components/tableRows"
 
 async function loaderTable() {
     return store.getState().tableMonth
@@ -14,9 +14,6 @@ function TablesRouter({ table }) {
     const [tableDescription, setTableDescription] = useState(true)
     const [columnsTable, setColumnsTable] = useState(tableData.columns.inputs)
     const [dataTable, setDataTable] = useState(tableData.data.inputs)
-    const totalInputs = `R$ ${parseFloat(table.dataTotal.totalInputs)}`
-    const totalOutputs = `R$ ${parseFloat(table.dataTotal.totalOutputs)}`
-    const totalMonth = `R$ ${parseFloat(table.dataTotal.total)}`
 
     useEffect(() => {
         tableDescription ? (
@@ -57,7 +54,7 @@ function TablesRouter({ table }) {
     )
 
     return (
-        <section className="bg-zinc-400 rounded p-4 w-full min-h-[480px]">
+        <section className=" rounded p-4 w-full min-h-[480px]">
             <div className="flex gap-2 my-2 justify-between">
                 <div className="flex gap-3 items-center">
                     <select className="h-6 shadow-lg" name="select">
@@ -80,14 +77,9 @@ function TablesRouter({ table }) {
                         Dispesas
                     </Button>
                 </div>
-                <div className="flex gap-2 p-2 rounded-md bg-zinc-300 font-semibold shadow-lg">
-                    <div>Mês: {totalMonth}</div>
-                    <div>Entradas: {totalInputs}</div>
-                    <div>Saídas: {totalOutputs}</div>
-                </div>
             </div>
             <div className="w-full h-full my-3">
-                <Tables columns={columns} data={data} />
+                <TableRows />
             </div>
         </section>
     )

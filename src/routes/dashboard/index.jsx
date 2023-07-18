@@ -20,7 +20,7 @@ function Dashboard() {
     const matches = useMatches()
 
     return (
-        <div className="h-screen w-full bg-zinc-200">
+        <div>
             <header className="flex bg-blue-900 py-7 px-14">
                 <Header />
                 <Nav />

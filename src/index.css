@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    @apply h-screen w-full font-sans
+    @apply h-screen w-full font-sans bg-zinc-200 
 }
