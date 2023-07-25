@@ -113,7 +113,7 @@ function DashboardHome({ table, deletRow, saveTableStore }) {
     )
 
     return (
-        <section className="max-w-4xl mx-auto" id="popup-root">
+        <section className="max-w-4xl mx-auto p-5" id="popup-root">
             <div className="flex gap-5 justify-between my-3">
                 <div className="px-10 py-4 m-1 w-72 rounded-sm bg-white shadow-lg">
                     <div className="flex flex-col gap-1">

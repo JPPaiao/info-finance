@@ -13,7 +13,7 @@ async function saveTable() {
         })
         .then(r => r.json())
         .catch(e => [])
-
+        
         store.dispatch({ type: "tableData/setData", payload: data })
     }
 }

@@ -1,113 +1,47 @@
+import { useState } from "react"
 import { UpIcon, DownIcon } from "../icons/icons"
 
-function TableRows() {
+function TableRows({ dataMonth }) {
+    const [dataMonths, setDataMonths] = useState(dataMonth)    
+    let months
 
-    // Dados que vamos receber do back-end
-    const dataMonths = {
-        julho: {
-            20: [
-                {
-                    id: 1,
-                    value: 300,
-                    date: "20/07/2023",
-                    desciption: "input",
-                    text: "caixa"
-                },
-                {
-                    id: 2,
-                    value: 300,
-                    date: "20/07/2023",
-                    desciption: "output",
-                    text: "pix"
-                },
-                {
-                    id: 3,
-                    value: 300,
-                    date: "20/07/2023",
-                    desciption: "input",
-                    text: "cartao"
-                },
-            ],
-            21: [
-                {
-                    id: 1,
-                    value: 300,
-                    date: "21/07/2023",
-                    desciption: "output",
-                    text: "caixa"
-                },
-                {
-                    id: 2,
-                    value: 300,
-                    date: "21/07/2023",
-                    desciption: "input",
-                    text: "cartao"
-                },
-            ]
-        },
-        agosto: {
-            3: [
-                {
-                    id: 1,
-                    value: 300,
-                    date: "3/08/2023",
-                    desciption: "input",
-                    text: "caixa"
-                },
-                {
-                    id: 2,
-                    value: 300,
-                    date: "3/08/2023",
-                    desciption: "output",
-                    text: "pix"
-                },
-                {
-                    id: 3,
-                    value: 300,
-                    date: "3/08/2023",
-                    desciption: "input",
-                    text: "cartao"
-                },
-            ],
-            4: [
-                {
-                    id: 1,
-                    value: 300,
-                    date: "4/08/2023",
-                    desciption: "output",
-                    text: "caixa"
-                },
-                {
-                    id: 2,
-                    value: 300,
-                    date: "4/08/2023",
-                    desciption: "input",
-                    text: "cartao"
-                },
-            ]
-        }
-    }
-    const months = Object.keys(dataMonths)
-    
+    dataMonth === null || dataMonth === {} || dataMonth === undefined
+    ? (
+        <div></div>
+    ) : months = Object.keys(dataMonths)
+
     return (
-        <div className="w-full mt-7">
+        <div className="max-w-lg">
             {
                 months.map(month => {
                     return (
-                        <>
-                            <h1 className="text-5xl p-3 font-semibold text-zinc-900">
+                        <div className="border-b-[10px] border-zinc-300 px-10 py-4">
+                            <h1 className="text-6xl px-1 font-semibold text-zinc-900">
                                 {month}
                             </h1>
                             {
                                 Object.keys(dataMonths[month]).map(day => {
+                                    let total_day = dataMonths[month][day]['total_day']
+                                    console.log(dataMonths[month][day])
                                     return (
-                                        <div>
-                                            <h2 className="text-2xl px-3 py-1 font-medium text-zinc-900">
-                                                {day}/{month}
-                                            </h2>
+                                        <div className="py-3">
+                                            <div className="flex justify-between px-1 py-2 font-medium text-zinc-900">
+                                                <h2 className="text-3xl">
+                                                    {day}/{month}
+                                                </h2>
+                                                <span 
+                                                    style={total_day > 0 
+                                                        ? {color: "rgb(67, 137, 94)"}
+                                                        : {color: "rgb(196, 53, 44)"}
+                                                    }
+                                                    className="text-2xl"
+                                                >
+                                                    R$ {total_day}
+                                                </span>
+                                            </div>
                                             {
-                                                dataMonths[month][day].map(data => {
-                                                    let icon = data.desciption == "input" ? <UpIcon classname={"text-green-600"} /> : <DownIcon classname={"text-red-600"} />
+                                                dataMonths[month][day]['days'].map(data => {
+                                                    let icon = data.description == "inputs" ? <UpIcon classname={"text-green-600"} /> : <DownIcon classname={"text-red-600"} />
     
                                                     return (
                                                         <div 
@@ -130,7 +64,7 @@ function TableRows() {
                                     )
                                 })
                             }
-                        </>
+                        </div>
                     )
                 })
             }

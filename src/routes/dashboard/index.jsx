@@ -25,7 +25,7 @@ function Dashboard() {
                 <Header />
                 <Nav />
             </header>
-            <main className="m-6 bg-zinc-200">
+            <main className="bg-zinc-200">
                 {
                     matches.length === 1
                     ? (
