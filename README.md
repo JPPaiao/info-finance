@@ -1,6 +1,6 @@
 # info-finance
 
-#### Sistema que ajuda a organizar seu financeiro, adiciona entradas e saidas do dia e amostra as contas do mês e diário.  
+#### Sistema que ajuda a organizar seu financeiro, adiciona entradas e saídas do dia e mostra as contas do mês e diário.  
 
 techs:
 - React
